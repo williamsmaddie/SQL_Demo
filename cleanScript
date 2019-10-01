@@ -1,13 +1,13 @@
 #!/bin/bash
 cd ./Desktop/SQL_Demo
 sqlite3
-/* read.sqlite3 */
+# read file
 open cities.db --new;
 .mode csv;
 .import cityPop.csv cityPop;
 .import cityName.csv cityName;
 
-/* dupCheck.sqlite */
+# parse for duplicates
 CREATE TABLE distinctPop
 (
   id TEXT,
@@ -28,7 +28,7 @@ INSERT INTO distinctName
 SELECT DISTINCT id, name
 FROM cityName;
 
-/*  join.sqlite*/
+# select joined data and output to csv
 .output cleanCities.csv
 SELECT distinctName.name, distinctPop.population, distinctName.id
 FROM distinctName
