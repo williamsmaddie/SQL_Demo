@@ -1,0 +1,36 @@
+#!/bin/bash
+cd ./Desktop/SQL_Demo
+sqlite3
+/* read.sqlite3 */
+open cities.db --new;
+.mode csv;
+.import cityPop.csv cityPop;
+.import cityName.csv cityName;
+
+/* dupCheck.sqlite */
+CREATE TABLE distinctPop
+(
+  id TEXT,
+  population TEXT
+);
+
+INSERT INTO distinctPop
+SELECT DISTINCT id, population
+FROM cityPop;
+
+CREATE TABLE distinctName
+(
+  id TEXT,
+  name TEXT
+);
+
+INSERT INTO distinctName
+SELECT DISTINCT id, name
+FROM cityName;
+
+/*  join.sqlite*/
+.output cleanCities.csv
+SELECT distinctName.name, distinctPop.population, distinctName.id
+FROM distinctName
+INNER JOIN distinctPop
+ON distinctName.id=distinctPop.id;
